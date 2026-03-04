@@ -1,121 +1,147 @@
 <!DOCTYPE html>
-<html lang="en">
-<meta charset="UTF-8">
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Comic World!</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Bangers&family=Permanent+Marker&display=swap" rel="stylesheet">
-
+    <title>Star Wars Crawl - Hello World</title>
+    <link href="https://fonts.googleapis.com/css2?family=Pathway+Gothic+One&display=swap" rel="stylesheet">
     <style>
         body {
-            background-color: #ffde00; /* Amarelo vibrante */
-            /* Efeito de pontos Ben-Day (Quadrinhos) */
-            background-image: radial-gradient(#f0c900 15%, transparent 16%);
-            background-size: 20px 20px;
-            font-family: 'Bangers', cursive;
-            height: 100vh;
+            background: #000 url('https://www.transparenttextures.com/patterns/stardust.png');
             display: flex;
+            flex-direction: column;
             align-items: center;
-            justify-content: center;
-            overflow: hidden;
+            justify-content: flex-end; /* Alinha o painel de controle embaixo */
+            height: 100vh;
             margin: 0;
+            perspective: 300px; /* Cria o efeito de profundidade 3D */
+            overflow: hidden;
+            color: #FFE81F;
+            font-family: 'Pathway Gothic One', sans-serif;
         }
 
-        /* Container Principal estilo "Painel" */
-        .comic-panel {
-            background: white;
-            border: 5px solid black;
-            padding: 3rem;
-            box-shadow: 15px 15px 0px 0px rgba(0,0,0,0.9);
-            transform: rotate(-2deg);
-            position: relative;
-            max-width: 90%;
+        /* Container da animação */
+        .crawl-container {
+            position: absolute;
+            bottom: 0;
+            width: 100%;
+            height: 100%;
+            transform-origin: 100% 100%;
+            transform: rotateX(35deg); /* Inclina o texto para o horizonte */
+            display: none; /* Escondido por padrão */
         }
 
-        /* Título com efeito de explosão */
-        .hello-title {
-            font-size: 6rem;
-            color: #e62117; /* Vermelho Marvel */
+        h1 {
+            font-size: 5rem;
+            text-align: center;
             text-transform: uppercase;
-            -webkit-text-stroke: 2px black;
-            text-shadow: 4px 4px 0px #000;
-            margin-bottom: 0;
-            line-height: 1;
+            letter-spacing: 10px;
+            margin: 0;
+            position: absolute;
+            width: 100%;
+            bottom: -100px; /* Começa fora da tela embaixo */
         }
 
-        /* Balão de Fala */
-        .speech-bubble {
-            position: absolute;
-            background: #fff;
-            border: 3px solid #000;
-            border-radius: 50px;
-            padding: 10px 20px;
-            font-family: 'Permanent Marker', cursive;
-            top: -40px;
-            right: -20px;
-            color: #000;
-            transform: rotate(5deg);
+        /* --- ANIMAÇÃO DE SUBIDA --- */
+        @keyframes crawl {
+            0% { bottom: -100px; opacity: 1; }
+            100% { bottom: 120%; opacity: 0; } /* Sobe até sumir no topo */
         }
 
-        .speech-bubble:after {
-            content: '';
-            position: absolute;
-            bottom: -15px;
-            left: 20px;
-            border-width: 15px 15px 0;
-            border-style: solid;
-            border-color: #000 transparent;
+        /* ESTADO 1: JEDI (AZUL E SUBINDO) */
+        .state-jedi .crawl-container {
             display: block;
-            width: 0;
+        }
+        .state-jedi h1 {
+            color: #fff;
+            text-shadow: 0 0 20px #2e67f8, 0 0 40px #2e67f8;
+            animation: crawl 10s linear infinite;
         }
 
-        /* Botão Estilo "Action" */
-        .btn-comic {
-            background: #2a75bb; /* Azul Heroico */
-            color: white;
-            border: 3px solid black;
+        /* ESTADO 2: SITH (VERMELHO, PISCANDO E SUBINDO RÁPIDO) */
+        .state-sith .crawl-container {
+            display: block;
+        }
+        .state-sith h1 {
+            color: #fff;
+            text-shadow: 0 0 20px #ff0000, 0 0 40px #ff0000;
+            animation: crawl 6s linear infinite, flicker 0.2s infinite;
+        }
+
+        @keyframes flicker {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.3; }
+        }
+
+        /* Botão de Controle */
+        .control-panel {
+            z-index: 100;
+            padding-bottom: 50px;
+            text-align: center;
+            background: linear-gradient(to top, black, transparent);
+            width: 100%;
+        }
+
+        .btn-force {
+            background: transparent;
+            color: #FFE81F;
+            border: 2px solid #FFE81F;
+            padding: 15px 40px;
+            font-family: 'Pathway Gothic One', sans-serif;
             font-size: 1.5rem;
-            padding: 10px 30px;
-            box-shadow: 5px 5px 0px black;
-            transition: 0.1s;
-            margin-top: 20px;
+            cursor: pointer;
+            text-transform: uppercase;
+            transition: 0.3s;
         }
 
-        .btn-comic:hover {
-            transform: translate(2px, 2px);
-            box-shadow: 2px 2px 0px black;
-            background: #1e5488;
-            color: white;
+        .btn-force:hover {
+            background: #FFE81F;
+            color: #000;
+            box-shadow: 0 0 30px #FFE81F;
         }
 
-        /* Elemento Decorativo (POW!) */
-        .pow-sticker {
-            position: absolute;
-            bottom: -30px;
-            left: -30px;
-            background: #000;
-            color: white;
-            padding: 5px 15px;
-            font-size: 2rem;
-            transform: rotate(-15deg);
-            clip-path: polygon(0% 15%, 15% 15%, 15% 0%, 85% 0%, 85% 15%, 100% 15%, 100% 85%, 85% 85%, 85% 100%, 15% 100%, 15% 85%, 0% 85%);
+        #status {
+            margin-top: 10px;
+            font-size: 1rem;
+            letter-spacing: 2px;
         }
     </style>
 </head>
-<body>
+<body id="mainBody">
 
-    <div class="comic-panel text-center">
-        <div class="speech-bubble">HUH?!</div>
-
-        <h1 class="hello-title">HELLO<br>WORLD!</h1>
-
-        <p class="h4 text-dark mt-3">EDIÇÃO #01: O INÍCIO DE TUDO</p>
-
-        <button class="btn btn-comic">LEIA MAIS!</button>
-
-        <div class="pow-sticker">WOW!</div>
+    <div class="crawl-container">
+        <h1 id="crawlText">Hello World</h1>
     </div>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <div class="control-panel">
+        <button class="btn-force" onclick="nextStage()">Sentir a Força</button>
+        <div id="status">SISTEMA EM REPOUSO</div>
+    </div>
+
+    <script>
+        let stage = 0;
+        const body = document.getElementById('mainBody');
+        const status = document.getElementById('status');
+
+        function nextStage() {
+            stage = (stage + 1) % 3;
+
+            // Limpa os estados
+            body.classList.remove('state-jedi', 'state-sith');
+
+            if (stage === 0) {
+                status.innerText = "SISTEMA EM REPOUSO";
+                status.style.color = "#444";
+            } else if (stage === 1) {
+                body.classList.add('state-jedi');
+                status.innerText = "LADO LUMINOSO: SUBINDO...";
+                status.style.color = "#2e67f8";
+            } else if (stage === 2) {
+                body.classList.add('state-sith');
+                status.innerText = "LADO SOMBRIO: INSTABILIDADE!";
+                status.style.color = "#ff0000";
+            }
+        }
+    </script>
 </body>
 </html>
