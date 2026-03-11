@@ -1,0 +1,32 @@
+{% extends "master.html" %}
+
+{% block title %}
+    The Royal Tennis Club
+{% endblock %}
+
+{% block content %}
+    <div style="text-align: center; padding: 20px 0;">
+        <h2 style="font-family: 'Playfair Display', serif; font-size: 2.5rem; margin-bottom: 15px;">Bem-Vindo!</h2>
+        <div style="width: 60px; height: 1px; background: var(--champagne); margin: 0 auto 30px;"></div>
+
+        <p style="font-size: 1.1rem; color: #555; max-width: 600px; margin: 0 auto 40px; line-height: 1.8;">
+            Fundado na tradição e movido pela paixão, o Royal Tennis Club oferece um ambiente inigualável para o esporte e a convivência social.
+        </p>
+
+        <a href="/members/" style="
+            display: inline-block;
+            padding: 15px 40px;
+            background-color: var(--noble-green);
+            color: white;
+            text-decoration: none;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            font-size: 0.8rem;
+            transition: 0.3s;
+            border: 1px solid var(--noble-green);
+        " onmouseover="this.style.backgroundColor='white'; this.style.color='var(--noble-green)'"
+           onmouseout="this.style.backgroundColor='var(--noble-green)'; this.style.color='white'">
+            Ver Quadro de Membros
+        </a>
+    </div>
+{% endblock %}

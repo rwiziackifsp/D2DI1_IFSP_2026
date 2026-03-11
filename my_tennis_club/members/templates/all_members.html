@@ -1,231 +1,54 @@
-<!DOCTYPE html>
-<html lang="pt-BR">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Arcade RPG Deck</title>
-    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@700&family=Metamorphous&family=Press+Start+2P&display=swap" rel="stylesheet">
-    <style>
-        :root {
-            --rarity-legendary: linear-gradient(135deg, #00f2ff, #0062ff, #7000ff);
-            --card-bg: rgba(15, 15, 35, 0.95);
-            --neon-blue: #00f2ff;
-            --neon-pink: #ff007a;
-        }
+{% extends "master.html" %}
 
-        body {
-            background-color: #050505;
-            background-image:
-                linear-gradient(rgba(0, 242, 255, 0.1) 1px, transparent 1px),
-                linear-gradient(90deg, rgba(0, 242, 255, 0.1) 1px, transparent 1px),
-                radial-gradient(circle at 50% 50%, rgba(112, 0, 255, 0.2) 0%, #050505 80%);
-            background-size: 40px 40px, 40px 40px, 100% 100%;
-            background-position: center bottom;
-            display: flex;
-            flex-direction: column;
+{% block title %}
+    Quadro de Membros | RTC
+{% endblock %}
+
+{% block content %}
+
+    <div style="margin-bottom: 30px; text-align: left;">
+        <a href="/" style="
+            text-decoration: none;
+            color: var(--noble-green);
+            font-family: 'Playfair Display', serif;
+            font-style: italic;
+            font-size: 0.9rem;
+            letter-spacing: 1px;
+            display: inline-flex;
             align-items: center;
-            min-height: 100vh;
-            padding: 50px 20px;
-            margin: 0;
-            color: white;
-            font-family: 'Open Sans', sans-serif;
-            overflow-x: hidden;
-        }
+            transition: 0.3s ease;
+            opacity: 0.7;
+        " onmouseover="this.style.opacity='1'; this.style.paddingLeft='5px'"
+           onmouseout="this.style.opacity='0.7'; this.style.paddingLeft='0'">
+            <span style="margin-right: 8px; font-size: 1.2rem;">&larr;</span>
+            VOLTAR
+        </a>
+    </div>
 
-        body::after {
-            content: "";
-            position: fixed;
-            top: 0; left: 0; width: 100%; height: 100%;
-            background: repeating-linear-gradient(0deg, rgba(0,0,0,0.15) 0px, rgba(0,0,0,0.15) 1px, transparent 2px);
-            pointer-events: none;
-            z-index: 10;
-        }
+    <h2 style="margin-bottom: 40px;">Membros do Clube</h2>
 
-        h1 {
-            font-family: 'Press Start 2P', cursive;
-            font-size: 2.8rem;
-            color: white;
-            text-shadow: 4px 4px var(--neon-pink), -4px -4px var(--neon-blue);
-            margin-bottom: 60px;
-            text-transform: uppercase;
-            letter-spacing: 8px;
-            text-align: center;
-            line-height: 1.4;
-        }
-
-        .deck-container {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
-            gap: 40px;
-            width: 100%;
-            max-width: 1200px;
-            perspective: 1500px;
-            z-index: 2;
-        }
-
-        .rpg-card {
-            background: var(--card-bg);
-            width: 260px;
-            height: 400px; /* Aumentado levemente para caber os novos dados */
-            border-radius: 10px;
-            border: 4px solid #333;
-            position: relative;
-            overflow: hidden;
-            display: flex;
-            flex-direction: column;
-            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            box-shadow: 0 0 20px rgba(0,0,0,0.8);
-            cursor: pointer;
-        }
-
-        .rpg-card::before {
-            content: "";
-            position: absolute;
-            inset: 0;
-            background: linear-gradient(125deg,
-                transparent 0%,
-                rgba(0, 242, 255, 0.1) 45%,
-                rgba(255, 0, 122, 0.2) 50%,
-                rgba(0, 242, 255, 0.1) 55%,
-                transparent 100%);
-            background-size: 250% 250%;
-            z-index: 5;
-            transition: 0.6s;
-            pointer-events: none;
-        }
-
-        .rpg-card:hover {
-            transform: translateY(-20px) rotateX(10deg);
-            box-shadow: 0 0 30px var(--neon-blue);
-            border-color: var(--neon-blue);
-        }
-
-        .rpg-card:hover::before {
-            background-position: 100% 100%;
-            mix-blend-mode: color-dodge;
-        }
-
-        .card-header {
-            background: rgba(0,0,0,0.6);
-            padding: 12px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            border-bottom: 2px solid var(--neon-blue);
-        }
-
-        .char-name {
-            font-family: 'Metamorphous', cursive;
-            font-size: 1rem;
-            margin: 0;
-            color: #fff;
-            text-shadow: 0 0 5px var(--neon-blue);
-        }
-
-        .char-lvl {
-            font-family: 'Press Start 2P', cursive;
-            color: var(--neon-pink);
-            font-size: 0.6rem;
-        }
-
-        .card-art {
-            height: 140px;
-            background: linear-gradient(180deg, #0a0a1a 0%, #1a1a2e 100%);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            font-size: 3.5rem;
-            border-bottom: 1px solid rgba(0, 242, 255, 0.2);
-        }
-
-        .card-body {
-            padding: 12px;
-            flex-grow: 1;
-            font-size: 0.75rem;
-            background: rgba(0,0,0,0.3);
-            font-family: 'Metamorphous', serif;
-        }
-
-        .stats {
-            margin-top: 5px;
-            border-top: 1px solid rgba(0, 242, 255, 0.2);
-            padding-top: 8px;
-        }
-
-        .stat-row {
-            display: flex;
-            justify-content: space-between;
-            margin-bottom: 6px;
-            color: #8db5ff;
-        }
-
-        .stat-label {
-            color: #aaa;
-            text-transform: uppercase;
-            font-size: 0.65rem;
-        }
-
-        .stat-value {
-            color: var(--neon-blue);
-            font-weight: bold;
-        }
-
-        .card-footer {
-            padding: 8px;
-            text-align: center;
-            font-size: 0.6rem;
-            font-family: 'Press Start 2P', cursive;
-            background: var(--rarity-legendary);
-            color: white;
-            text-shadow: 1px 1px #000;
-        }
-
-
-    </style>
-</head>
-<body>
-
-    <h1>MEMBERS</h1>
-
-<div class="deck-container">
-    {% for x in mymembers %}
-    <a href="details/{{ x.id }}" style="text-decoration: none; color: inherit; display: block;">
-        <div class="rpg-card">
-            <div class="card-header">
-                <p class="char-name">{{ x.first_name }}</p>
-                <span class="char-lvl">LVL {{ x.joined_date|date:"y" }}</span>
-            </div>
-
-            <div class="card-art">
-                <img src="https://api.dicebear.com/7.x/pixel-art/svg?seed={{ x.first_name }}" alt="Hero" style="width: 90px; filter: drop-shadow(0 0 10px var(--neon-pink));">
-            </div>
-
-            <div class="card-body">
-                <div class="stats">
-                    <div class="stat-row">
-                        <span class="stat-label">Sobrenome:</span>
-                        <span class="stat-value">{{ x.last_name }}</span>
-                    </div>
-                    <div class="stat-row">
-                        <span class="stat-label">Contato:</span>
-                        <span class="stat-value">{{ x.phone|default:"???" }}</span>
-                    </div>
-                    <div class="stat-row">
-                        <span class="stat-label">Entrada:</span>
-                        <span class="stat-value">{{ x.joined_date|date:"d/m/Y" }}</span>
-                    </div>
-                </div>
-            </div>
-
-            <div class="card-footer">
-                Rare Item
-            </div>
-        </div>
-    </a>
-    {% empty %}
-    <p>Insert Coin to Start</p>
-    {% endfor %}
-</div>
-
-</body>
-</html>
+    <div style="overflow-x: auto;">
+        <table style="width: 100%; border-collapse: collapse; text-align: left;">
+            <thead>
+                <tr style="border-bottom: 2px solid var(--champagne); color: var(--noble-green); text-transform: uppercase; font-size: 0.8rem; letter-spacing: 1px;">
+                    <th style="padding: 15px;">Nome Completo</th>
+                    <th style="padding: 15px; text-align: right;"></th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for x in mymembers %}
+                <tr style="border-bottom: 1px solid #eee; transition: 0.3s;" onmouseover="this.style.backgroundColor='#fcfbf7'">
+                    <td style="padding: 20px; font-family: 'Playfair Display', serif; font-size: 1.2rem;">
+                        {{ x.first_name }} {{ x.last_name }}
+                    </td>
+                    <td style="padding: 20px; text-align: right;">
+                        <a href="details/{{ x.id }}" style="color: var(--champagne); text-decoration: none; font-weight: bold; font-size: 0.8rem; text-transform: uppercase;">
+                            Ver Perfil →
+                        </a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+{% endblock %}

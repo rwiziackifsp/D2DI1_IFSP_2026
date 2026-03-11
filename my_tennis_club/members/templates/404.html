@@ -1,0 +1,140 @@
+{% extends "master.html" %}
+
+{% block title %}
+    Bola Fora! | Royal Tennis Club
+{% endblock %}
+
+{% block content %}
+<div style="text-align: center; padding: 20px 20px;">
+
+    <h2 style="font-family: 'Playfair Display', serif; font-size: 3rem; color: var(--noble-green); margin: 0;">
+        404
+    </h2>
+    <p style="font-family: 'Playfair Display', serif; font-style: italic; font-size: 1.2rem; color: var(--champagne); margin-bottom: 20px;">
+        A página que você tentou acessar não existe!
+    </p>
+
+    <div style="position: relative; display: inline-block; border: 2px solid var(--champagne); background: var(--noble-green); box-shadow: 0 10px 30px rgba(0,0,0,0.2);">
+        <canvas id="tennisGame" width="400" height="300"></canvas>
+        <div id="gameOverMessage" style="display: none; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); color: white; font-family: 'Playfair Display', serif;">
+            <p style="font-size: 1.5rem; margin-bottom: 10px;">Fim de Set!</p>
+            <button onclick="resetGame()" style="background: var(--champagne); border: none; padding: 5px 15px; cursor: pointer; text-transform: uppercase; font-size: 0.7rem; font-weight: bold;">Tentar Novamente</button>
+        </div>
+    </div>
+
+    <div style="width: 50px; height: 1px; background: var(--champagne); margin: 30px auto;"></div>
+
+    <a href="/" style="
+        display: inline-block;
+        padding: 12px 30px;
+        background-color: var(--noble-green);
+        color: white;
+        text-decoration: none;
+        letter-spacing: 2px;
+        text-transform: uppercase;
+        font-size: 0.7rem;
+        transition: 0.3s ease;
+        border: 1px solid var(--noble-green);
+    " onmouseover="this.style.backgroundColor='transparent'; this.style.color='var(--noble-green)'"
+       onmouseout="this.style.backgroundColor='var(--noble-green)'; this.style.color='white'">
+        Página Inicial
+    </a>
+
+</div>
+
+<script>
+    const canvas = document.getElementById("tennisGame");
+    const ctx = canvas.getContext("2d");
+    const gameOverDiv = document.getElementById("gameOverMessage");
+
+    let ballRadius = 6;
+    let x = canvas.width / 2;
+    let y = canvas.height - 30;
+    let dx = 3;
+    let dy = -3;
+
+    const paddleHeight = 8;
+    const paddleWidth = 75;
+    let paddleX = (canvas.width - paddleWidth) / 2;
+
+    let rightPressed = false;
+    let leftPressed = false;
+
+    document.addEventListener("keydown", keyDownHandler, false);
+    document.addEventListener("keyup", keyUpHandler, false);
+
+    function keyDownHandler(e) {
+        if(e.key == "Right" || e.key == "ArrowRight") rightPressed = true;
+        else if(e.key == "Left" || e.key == "ArrowLeft") leftPressed = true;
+    }
+
+    function keyUpHandler(e) {
+        if(e.key == "Right" || e.key == "ArrowRight") rightPressed = false;
+        else if(e.key == "Left" || e.key == "ArrowLeft") leftPressed = false;
+    }
+
+    function resetGame() {
+        x = canvas.width / 2;
+        y = canvas.height - 30;
+        dx = 3;
+        dy = -3;
+        paddleX = (canvas.width - paddleWidth) / 2;
+        gameOverDiv.style.display = "none";
+        draw();
+    }
+
+    function drawBall() {
+        ctx.beginPath();
+        ctx.arc(x, y, ballRadius, 0, Math.PI * 2);
+        ctx.fillStyle = "#d4e157"; // Cor de bola de tênis amarela
+        ctx.fill();
+        ctx.closePath();
+    }
+
+    function drawPaddle() {
+        ctx.beginPath();
+        ctx.rect(paddleX, canvas.height - paddleHeight - 5, paddleWidth, paddleHeight);
+        ctx.fillStyle = "#c5a358"; // Cor Champagne (Dourado)
+        ctx.fill();
+        ctx.closePath();
+    }
+
+    function draw() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+        // Linha da rede (decorativa)
+        ctx.setLineDash([5, 5]);
+        ctx.beginPath();
+        ctx.moveTo(0, canvas.height / 2);
+        ctx.lineTo(canvas.width, canvas.height / 2);
+        ctx.strokeStyle = "rgba(255,255,255,0.1)";
+        ctx.stroke();
+        ctx.setLineDash([]);
+
+        drawBall();
+        drawPaddle();
+
+        if (x + dx > canvas.width - ballRadius || x + dx < ballRadius) dx = -dx;
+        if (y + dy < ballRadius) dy = -dy;
+        else if (y + dy > canvas.height - ballRadius - 5) {
+            if (x > paddleX && x < paddleX + paddleWidth) {
+                dy = -dy;
+                dx *= 1.05; // Aumenta a velocidade levemente a cada batida
+                dy *= 1.05;
+            } else {
+                gameOverDiv.style.display = "block";
+                return; // Para o loop
+            }
+        }
+
+        if (rightPressed && paddleX < canvas.width - paddleWidth) paddleX += 7;
+        else if (leftPressed && paddleX > 0) paddleX -= 7;
+
+        x += dx;
+        y += dy;
+        requestAnimationFrame(draw);
+    }
+
+    draw();
+</script>
+{% endblock %}
