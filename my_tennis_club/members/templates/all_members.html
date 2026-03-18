@@ -5,46 +5,52 @@
 {% endblock %}
 
 {% block content %}
-
-    <div style="margin-bottom: 30px; text-align: left;">
-        <a href="/" style="
-            text-decoration: none;
-            color: var(--noble-green);
-            font-family: 'Playfair Display', serif;
-            font-style: italic;
-            font-size: 0.9rem;
-            letter-spacing: 1px;
-            display: inline-flex;
-            align-items: center;
-            transition: 0.3s ease;
-            opacity: 0.7;
-        " onmouseover="this.style.opacity='1'; this.style.paddingLeft='5px'"
-           onmouseout="this.style.opacity='0.7'; this.style.paddingLeft='0'">
-            <span style="margin-right: 8px; font-size: 1.2rem;">&larr;</span>
-            VOLTAR
+    <div class="mb-4">
+        <a href="/" class="text-decoration-none text-uppercase fw-bold" style="color: var(--noble-green); font-size: 0.75rem; letter-spacing: 2px; opacity: 0.6;">
+             ← Voltar ao Início
         </a>
     </div>
 
-    <h2 style="margin-bottom: 40px;">Membros do Clube</h2>
+    <div class="d-flex justify-content-between align-items-center mb-5">
+        <h2 class="display-6 m-0" style="font-family: 'Playfair Display', serif; color: var(--noble-green);">Quadro de Membros</h2>
+        <a href="add/" class="btn btn-sm px-3 text-uppercase fw-bold"
+           style="background-color: var(--noble-green); color: var(--champagne); font-size: 0.7rem; letter-spacing: 1px;">
+           + Novo Membro
+        </a>
+    </div>
 
-    <div style="overflow-x: auto;">
-        <table style="width: 100%; border-collapse: collapse; text-align: left;">
-            <thead>
-                <tr style="border-bottom: 2px solid var(--champagne); color: var(--noble-green); text-transform: uppercase; font-size: 0.8rem; letter-spacing: 1px;">
-                    <th style="padding: 15px;">Nome Completo</th>
-                    <th style="padding: 15px; text-align: right;"></th>
+    <div class="table-responsive">
+        <table class="table table-hover align-middle">
+            <thead class="border-bottom-0">
+                <tr style="color: var(--champagne); text-transform: uppercase; font-size: 0.7rem; letter-spacing: 2px;">
+                    <th class="pb-3 fw-bold">Nome do Cavalheiro / Dama</th>
+                    <th class="pb-3 text-end">Gestão de Registro</th>
                 </tr>
             </thead>
-            <tbody>
+            <tbody class="border-top-0">
                 {% for x in mymembers %}
-                <tr style="border-bottom: 1px solid #eee; transition: 0.3s;" onmouseover="this.style.backgroundColor='#fcfbf7'">
-                    <td style="padding: 20px; font-family: 'Playfair Display', serif; font-size: 1.2rem;">
+                <tr class="py-3">
+                    <td class="py-4" style="font-family: 'Playfair Display', serif; font-size: 1.25rem; color: #333;">
                         {{ x.first_name }} {{ x.last_name }}
                     </td>
-                    <td style="padding: 20px; text-align: right;">
-                        <a href="details/{{ x.id }}" style="color: var(--champagne); text-decoration: none; font-weight: bold; font-size: 0.8rem; text-transform: uppercase;">
-                            Ver Perfil →
-                        </a>
+                    <td class="text-end py-4">
+                        <div class="d-inline-flex gap-2">
+                            <a href="details/{{ x.id }}" class="btn btn-sm" title="Visualizar"
+                               style="color: var(--noble-green); border: 1px solid rgba(26, 60, 52, 0.1); transition: 0.3s;">
+                                <i class="fa-sharp fa-solid fa-eye"></i>
+                            </a>
+
+                            <a href="update/{{ x.id }}" class="btn btn-sm" title="Editar"
+                               style="color: var(--noble-green); border: 1px solid rgba(26, 60, 52, 0.1); transition: 0.3s;">
+                                <i class="fa-sharp fa-solid fa-pen-to-square"></i>
+                            </a>
+
+                            <a href="delete/{{ x.id }}" class="btn btn-sm" title="Remover"
+                               onclick="return confirm('Deseja realmente remover este membro do registro?')"
+                               style="color: #a35858; border: 1px solid rgba(163, 88, 88, 0.1); transition: 0.3s;">
+                                <i class="fa-solid fa-trash-can"></i>
+                            </a>
+                        </div>
                     </td>
                 </tr>
                 {% endfor %}

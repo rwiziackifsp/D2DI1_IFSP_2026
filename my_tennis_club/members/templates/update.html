@@ -1,0 +1,104 @@
+{% extends "master.html" %}
+
+{% block title %}
+    Atualizar cadastro do Membro | MTC
+{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-12 col-md-8 col-lg-6">
+
+            <div class="text-center mb-5">
+                <i class="fa-solid fa-pen-nib mb-3" style="font-size: 2rem; color: var(--champagne); opacity: 0.7;"></i>
+                <h2 class="display-5" style="font-family: 'Playfair Display', serif; color: var(--noble-green);">
+                    Editar informações
+                </h2>
+                <p class="text-uppercase mb-0" style="font-size: 0.75rem; letter-spacing: 3px; color: var(--champagne);">
+                    Members Tennis Club Archives
+                </p>
+                <div class="mx-auto mt-3" style="width: 60px; height: 1px; background: var(--noble-green); opacity: 0.3;"></div>
+            </div>
+
+            <div class="p-4 p-md-5" style="background: #ffffff; border: 1px solid rgba(197, 163, 88, 0.2); box-shadow: 0 10px 30px rgba(0,0,0,0.02);">
+                <form action="{% url 'updaterecord' mymember.id %}" method="post">
+                    {% csrf_token %}
+
+                    <div class="mb-4">
+                        <label for="first_name" class="form-label text-uppercase fw-bold" style="font-size: 0.65rem; letter-spacing: 2px; color: #999;">
+                            Primeiro Nome
+                        </label>
+                        <input type="text" name="first_name" id="first_name" value="{{ mymember.first_name }}" class="form-control custom-input"
+                               placeholder="Primeiro nome" required>
+                    </div>
+
+                    <div class="mb-5">
+                        <label for="last_name" class="form-label text-uppercase fw-bold" style="font-size: 0.65rem; letter-spacing: 2px; color: #999;">
+                            Sobrenome
+                        </label>
+                        <input type="text" name="last_name" id="last_name" value="{{ mymember.last_name }}" class="form-control custom-input"
+                               placeholder="Sobrenome" required>
+                    </div>
+
+                    <div class="d-grid gap-3">
+                        <button type="submit" class="btn btn-royal-submit py-3 text-uppercase fw-bold">
+                            Confirmar Alterações
+                        </button>
+                        <a href="/members/" class="btn btn-link text-decoration-none text-muted text-uppercase" style="font-size: 0.7rem; letter-spacing: 1px;">
+                            Cancelar e Voltar
+                        </a>
+                    </div>
+                </form>
+            </div>
+
+            <div class="mt-5 text-center opacity-50">
+                <small style="font-style: italic; font-family: 'Playfair Display', serif;">
+                    "Honra, Tradição e Excelência desde 1922"
+                </small>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<style>
+    /* Estilização refinada dos inputs */
+    .custom-input {
+        border: none !important;
+        border-bottom: 1px solid rgba(26, 60, 52, 0.2) !important;
+        border-radius: 0 !important;
+        padding: 0.75rem 0 !important;
+        background-color: transparent !important;
+        transition: all 0.3s ease;
+        font-size: 1.1rem;
+    }
+
+    .custom-input:focus {
+        box-shadow: none !important;
+        border-bottom-color: var(--champagne) !important;
+    }
+
+    /* Botão de Submissão */
+    .btn-royal-submit {
+        background-color: var(--noble-green);
+        color: var(--champagne);
+        border-radius: 0;
+        border: 1px solid var(--noble-green);
+        letter-spacing: 2px;
+        transition: all 0.4s ease;
+    }
+
+    .btn-royal-submit:hover {
+        background-color: transparent;
+        color: var(--noble-green);
+        border-color: var(--noble-green);
+    }
+
+    /* Placeholder mais discreto */
+    .custom-input::placeholder {
+        color: #ddd;
+        font-style: italic;
+        font-size: 0.9rem;
+    }
+</style>
+{% endblock %}
