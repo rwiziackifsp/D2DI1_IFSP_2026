@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Equipments</title>
+</head>
+<body>
+   <h1>Equipamentos - MEMBERS TENNIS CLUB</h1>
+    <ul>
+        {% for eqpt in my_equipments %} <!-- Itera equipamentos armazenads na model ara exibir na página -->
+        <li>
+            <a href="details/{{ eqpt.id }}">{{ eqpt.nome_equipment }} {{ eqpt.modelo_equipment }}</a>
+        </li>
+        {% endfor %}
+    </ul>
+</body>
+</html>

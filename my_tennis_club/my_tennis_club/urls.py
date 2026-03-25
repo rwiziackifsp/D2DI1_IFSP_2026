@@ -20,4 +20,5 @@ from django.urls import include, path
 urlpatterns = [
     path('', include('members.urls')), # Nova url do app members adicionada nos caminhso do projeto raiz
     path('admin/', admin.site.urls),
+    path('', include('equipments.urls')), # Nova url do app members adicionada nos caminhso do projeto raiz
 ]

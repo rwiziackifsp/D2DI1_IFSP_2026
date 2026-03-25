@@ -37,7 +37,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'members.apps.MembersConfig' # 1º Novo app inserido no INSTALLED_APPS ao ser adicionado => manage.py@my_tennis_club > startapp members, com isso fica funcional
+    'members.apps.MembersConfig',
+    'equipments.apps.EquipmentsConfig' # 1º Novo app inserido no INSTALLED_APPS ao ser adicionado => manage.py@my_tennis_club > startapp members, com isso fica funcional
 ]
 
 MIDDLEWARE = [
