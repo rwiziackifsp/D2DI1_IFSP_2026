@@ -1,11 +1,6 @@
 <!DOCTYPE html>
-
 <html lang="pt-br">
 <head>
-    {% load static %}
-
-    <link rel="icon" type="image/x-icon" href="{% static 'img/favicon.ico' %}">
-
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{% block title %}Members Tennis Club{% endblock %}</title>
@@ -109,7 +104,11 @@
 <body>
 
     {% include 'navbar.html' %}
-
+    <form class="d-flex" role="search" method="post" action="/members/busca/">
+        {% csrf_token %}
+        <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search" name="busca" value="{{ texto_busca }}">
+        <button class="btn btn-outline-success" type="submit">Search</button>
+    </form>
     <div class="container">
         <div class="row min-vh-100 align-items-center justify-content-center">
             <div class="col-12 col-lg-10 text-center">

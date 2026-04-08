@@ -16,12 +16,9 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import include, path
-from django.conf import settings
-from django.conf.urls.static import static
 
 urlpatterns = [
     path('', include('members.urls')), # Nova url do app members adicionada nos caminhso do projeto raiz
     path('admin/', admin.site.urls),
     path('', include('equipments.urls')), # Nova url do app members adicionada nos caminhso do projeto raiz
 ]
-

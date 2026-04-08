@@ -1,15 +1,22 @@
+from django.db.models import Q
 from django.http import HttpResponse, HttpResponseRedirect
 from django.template import loader
 from django.urls import reverse
 from .models import Member
+from django.db.models import Q
+from django.core.paginator import Paginator
 
 
 # Create your views here.
 def members(request):
     mymembers = Member.objects.all().values()
     template = loader.get_template('all_members.html')
+    paginator = Paginator(mymembers, 5)
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
     context = {
         'mymembers': mymembers,
+        "page_obj": page_obj,
     }
     return HttpResponse(template.render(context, request))
 
@@ -20,6 +27,17 @@ def details(request, id):
         'mymember': mymember,
     }
     return HttpResponse(template.render(context, request))
+
+def busca(request):
+    texto_busca = request.POST['busca']
+    dados = Member.objects.filter(Q(first_name__icontains=texto_busca) | Q(last_name__icontains=texto_busca)).values()
+    t = loader.get_template("all_members.html")
+    context = {
+        "mymembers": dados,
+        "texto_busca": texto_busca,
+        "qtd": len(dados),
+    }
+    return HttpResponse(t.render(context, request))
 
 def main(request):
     template = loader.get_template('main.html')

@@ -11,7 +11,6 @@ https://docs.djangoproject.com/en/6.0/ref/settings/
 """
 
 from pathlib import Path
-import os
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -24,7 +23,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-h9fsn6$m^d5l759a2p%5sexkny!ofmrttr*c_=onym^-onifud'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = ["*"]
 
@@ -121,13 +120,3 @@ USE_TZ = True
 
 STATIC_URL = 'static/'
 
-
-DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
-
-# 3. List of directories where Django looks for static files (in development)
-STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, 'members/static'),
-]
-
-# 4. Directory where collectstatic will gather files for production
-STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
