@@ -1,0 +1,14 @@
+{% extends 'master_equipments.html' %}
+
+{% block title %}
+    My Tennis Club - List of all members
+{% endblock %}
+
+{% block content %}
+    <h2>Equipments</h2>
+    <ul>
+        {% for x in itens %}
+            <li> {{ x.name }} </li>
+        {% endfor %}
+    </ul>
+{% endblock %}
