@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %} {% endblock %}</title>
+    <style>
+        body{
+            background-color: orange;
+            font-family: sans-serif;
+            color: #fff;
+        }
+    </style>
+</head>
+<body>
+    <h1>My Tennis Club</h1>
+
+    <hr />
+    <p>
+        <a href="/">Home</a>
+        <a href="/equipments/">Equipments</a>
+    </p>
+    <hr />
+
+    {% block content %}
+    {% endblock %}
+</body>
+</html>
